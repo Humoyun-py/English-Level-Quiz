@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - English Level Quiz</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="nav">
+            <div class="nav-links">
+                <a href="/" class="nav-link">🏠 Home</a>
+                <a href="/quiz" class="nav-link">📝 Take Quiz</a>
+                <a href="/results" class="nav-link">📊 My Results</a>
+                <a href="/leaderboard" class="nav-link">🏆 Leaderboard</a>
+            </div>
+            <div>
+                <button onclick="window.location.href='/'" class="btn btn-outline btn-small">Back to Home</button>
+            </div>
+        </nav>
+
+        <div class="glass-card">
+            <h1 style="font-size: 2.5rem; margin-bottom: 10px; text-align: center;">🏆 Leaderboard</h1>
+            <p style="text-align: center; opacity: 0.8; margin-bottom: 40px;">Top performers worldwide</p>
+
+            <div class="leaderboard-table">
+                <!-- Header -->
+                <div class="leaderboard-row" style="background: rgba(255, 255, 255, 0.2); font-weight: 700;">
+                    <div class="text-center">Rank</div>
+                    <div>Name</div>
+                    <div class="text-center">Level</div>
+                    <div class="text-center">Score</div>
+                </div>
+
+                <!-- Leaderboard entries -->
+                <div id="leaderboardContainer">
+                    <p style="text-align: center; opacity: 0.8; padding: 40px;">Loading leaderboard...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+    <script>
+        loadLeaderboard();
+    </script>
+</body>
+
+</html>

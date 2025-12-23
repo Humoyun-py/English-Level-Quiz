@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Quiz - English Level Quiz</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="nav">
+            <div class="nav-links">
+                <a href="/" class="nav-link">🏠 Home</a>
+                <a href="/quiz" class="nav-link">📝 Take Quiz</a>
+                <a href="/results" class="nav-link">📊 My Results</a>
+                <a href="/leaderboard" class="nav-link">🏆 Leaderboard</a>
+                <a href="/admin" class="nav-link" id="adminLink" style="display: none;">👨‍💼 Admin</a>
+            </div>
+            <div>
+                <span id="userDisplay" style="margin-right: 20px; font-weight: 600;"></span>
+                <button onclick="handleLogout()" class="btn btn-outline btn-small">Logout</button>
+            </div>
+        </nav>
+
+        <!-- Level Selection -->
+        <div id="levelSelection">
+            <div class="glass-card text-center">
+                <h1 style="font-size: 2.5rem; margin-bottom: 20px;">Choose Your Quiz Level</h1>
+                <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 40px;">
+                    Select a specific level or take the full assessment
+                </p>
+
+                <div class="levels-grid">
+                    <div class="level-card" onclick="selectLevel('A1')">
+                        <h3>A1</h3>
+                        <p>Beginner</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px;">15 Questions</p>
+                    </div>
+                    <div class="level-card" onclick="selectLevel('A2')">
+                        <h3>A2</h3>
+                        <p>Elementary</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px;">15 Questions</p>
+                    </div>
+                    <div class="level-card" onclick="selectLevel('B1')">
+                        <h3>B1</h3>
+                        <p>Intermediate</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px;">15 Questions</p>
+                    </div>
+                    <div class="level-card" onclick="selectLevel('B2')">
+                        <h3>B2</h3>
+                        <p>Upper Intermediate</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px;">15 Questions</p>
+                    </div>
+                    <div class="level-card" onclick="selectLevel('C1')">
+                        <h3>C1</h3>
+                        <p>Advanced</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px;">15 Questions</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 40px;">
+                    <button onclick="selectLevel('full')" class="btn" style="font-size: 1.2rem; padding: 20px 50px;">
+                        🎯 Take Full Assessment (All Levels)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quizSection" class="hidden quiz-container">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h2 id="scoreDisplay" style="font-size: 1.5rem;">Score: 0/0</h2>
+            </div>
+            <div id="questionContainer"></div>
+        </div>
+
+        <!-- Result Section -->
+        <div id="resultSection" class="hidden">
+            <div id="resultContainer"></div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+    <script>
+        checkSession();
+
+        function selectLevel(level) {
+            document.getElementById('levelSelection').classList.add('hidden');
+            document.getElementById('quizSection').classList.remove('hidden');
+            startQuiz(level);
+        }
+
+        // Override displayResult to show it in the result section
+        const originalDisplayResult = displayResult;
+        displayResult = function (result) {
+            document.getElementById('quizSection').classList.add('hidden');
+            document.getElementById('resultSection').classList.remove('hidden');
+            originalDisplayResult(result);
+        };
+    </script>
+</body>
+
+</html>

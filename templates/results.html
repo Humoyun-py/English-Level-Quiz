@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Results - English Level Quiz</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="nav">
+            <div class="nav-links">
+                <a href="/" class="nav-link">🏠 Home</a>
+                <a href="/quiz" class="nav-link">📝 Take Quiz</a>
+                <a href="/results" class="nav-link">📊 My Results</a>
+                <a href="/leaderboard" class="nav-link">🏆 Leaderboard</a>
+                <a href="/admin" class="nav-link" id="adminLink" style="display: none;">👨‍💼 Admin</a>
+            </div>
+            <div>
+                <span id="userDisplay" style="margin-right: 20px; font-weight: 600;"></span>
+                <button onclick="handleLogout()" class="btn btn-outline btn-small">Logout</button>
+            </div>
+        </nav>
+
+        <div class="glass-card">
+            <h1 style="font-size: 2.5rem; margin-bottom: 30px; text-align: center;">📊 My Quiz Results</h1>
+
+            <div id="resultsContainer">
+                <p style="text-align: center; opacity: 0.8;">Loading results...</p>
+            </div>
+
+            <div class="text-center mt-20">
+                <a href="/quiz" class="btn">Take Another Quiz</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+    <script>
+        checkSession();
+        loadUserResults();
+    </script>
+</body>
+
+</html>

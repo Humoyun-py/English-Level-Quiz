@@ -1,0 +1,5 @@
+aiogram==3.4.1
+flask==3.0.0
+flask-cors==4.0.0
+sqlite3
+reportlab==4.0.7

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - English Level Quiz</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="nav">
+            <div class="nav-links">
+                <a href="/" class="nav-link">🏠 Home</a>
+                <a href="/quiz" class="nav-link">📝 Take Quiz</a>
+                <a href="/results" class="nav-link">📊 My Results</a>
+                <a href="/leaderboard" class="nav-link">🏆 Leaderboard</a>
+                <a href="/admin" class="nav-link">👨‍💼 Admin</a>
+            </div>
+            <div>
+                <span id="userDisplay" style="margin-right: 20px; font-weight: 600;"></span>
+                <button onclick="handleLogout()" class="btn btn-outline btn-small">Logout</button>
+            </div>
+        </nav>
+
+        <div class="glass-card">
+            <h1 style="font-size: 2.5rem; margin-bottom: 40px; text-align: center;">👨‍💼 Admin Panel</h1>
+
+            <!-- Statistics -->
+            <div class="admin-section">
+                <h2>📊 Statistics</h2>
+                <div class="stats-grid" id="statsContainer">
+                    <p style="text-align: center; opacity: 0.8;">Loading statistics...</p>
+                </div>
+            </div>
+
+            <!-- Questions Management -->
+            <div class="admin-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>❓ Questions Management</h2>
+                    <button onclick="showAddQuestionForm()" class="btn">➕ Add Question</button>
+                </div>
+
+                <!-- Add Question Form -->
+                <div id="addQuestionForm" class="hidden"
+                    style="background: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 15px; margin-bottom: 30px;">
+                    <h3 style="margin-bottom: 20px;">Add New Question</h3>
+                    <form onsubmit="handleAddQuestion(event)">
+                        <div class="form-group">
+                            <label>Level</label>
+                            <select id="newQuestionLevel" required>
+                                <option value="A1">A1 - Beginner</option>
+                                <option value="A2">A2 - Elementary</option>
+                                <option value="B1">B1 - Intermediate</option>
+                                <option value="B2">B2 - Upper Intermediate</option>
+                                <option value="C1">C1 - Advanced</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Question Text</label>
+                            <textarea id="newQuestionText" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Option 1</label>
+                            <input type="text" id="newOption1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Option 2</label>
+                            <input type="text" id="newOption2" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Option 3</label>
+                            <input type="text" id="newOption3" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Option 4</label>
+                            <input type="text" id="newOption4" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Correct Answer (1-4)</label>
+                            <select id="newCorrectAnswer" required>
+                                <option value="0">Option 1</option>
+                                <option value="1">Option 2</option>
+                                <option value="2">Option 3</option>
+                                <option value="3">Option 4</option>
+                            </select>
+                        </div>
+                        <div class="flex gap-10">
+                            <button type="submit" class="btn">Add Question</button>
+                            <button type="button" onclick="hideAddQuestionForm()"
+                                class="btn btn-outline">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Questions List -->
+                <div class="question-list" id="questionsContainer">
+                    <p style="text-align: center; opacity: 0.8;">Loading questions...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+    <script>
+        checkSession();
+        loadAdminStats();
+        loadQuestions();
+
+        function showAddQuestionForm() {
+            document.getElementById('addQuestionForm').classList.remove('hidden');
+        }
+
+        function hideAddQuestionForm() {
+            document.getElementById('addQuestionForm').classList.add('hidden');
+        }
+
+        async function handleAddQuestion(event) {
+            event.preventDefault();
+
+            const question = {
+                level: document.getElementById('newQuestionLevel').value,
+                question: document.getElementById('newQuestionText').value,
+                options: [
+                    document.getElementById('newOption1').value,
+                    document.getElementById('newOption2').value,
+                    document.getElementById('newOption3').value,
+                    document.getElementById('newOption4').value
+                ],
+                correct: parseInt(document.getElementById('newCorrectAnswer').value)
+            };
+
+            try {
+                const response = await fetch('/api/admin/questions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(question)
+                });
+
+                if (response.ok) {
+                    showNotification('Question added successfully!', 'success');
+                    hideAddQuestionForm();
+                    event.target.reset();
+                    loadQuestions();
+                    loadAdminStats();
+                } else {
+                    showNotification('Failed to add question', 'error');
+                }
+            } catch (error) {
+                console.error('Add question error:', error);
+                showNotification('Failed to add question', 'error');
+            }
+        }
+    </script>
+</body>
+
+</html>
